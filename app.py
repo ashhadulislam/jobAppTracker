@@ -135,7 +135,8 @@ with st.form("add_job"):
 
     if submitted and text.strip():
 
-        now = datetime.now()
+        now = datetime.now().isoformat()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         next_id = 1
 
@@ -148,8 +149,8 @@ with st.form("add_job"):
             "text": text.strip(),
             "url": extract_url(text),
             "notes": notes,
-            "created_at": now,
-            "updated_at": now,
+            "created_at": timestamp,
+            "updated_at": timestamp,
         }
 
         df = pd.concat(
@@ -217,7 +218,7 @@ for col_idx, status in enumerate(STATUSES):
                 if move_to != status:
 
                     df.loc[idx, "status"] = move_to
-                    df.loc[idx, "updated_at"] = datetime.now()
+                    df.loc[idx, "updated_at"] = datetime.now().isoformat()
 
                     save_data(df)
 
